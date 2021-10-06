@@ -10,13 +10,13 @@ import { useIsFocused } from "@react-navigation/native";
 import { BlogContext, AuthContext } from "../App";
 import Header from "../components/Header";
 import SingleBlog from "../components/SingleBlog";
-// import { Feather, AntDesign } from "react-native-vector-icons";
 
 export default function homeScreen({ navigation }) {
-  const { allBlogs, setAllBlogs } = useContext(BlogContext);
+  const { allBlogs, setAllBlogs, updated, setUpdated } =
+    useContext(BlogContext);
   const { loginDetails, setLoginDetails, loggedIn, setLoggedIn } =
     useContext(AuthContext);
-  const [updated, setUpdated] = useState(false);
+  // const [updated, setUpdated] = useState(false);
   const isFocussed = useIsFocused();
 
   const fetchData = () => {
@@ -26,6 +26,7 @@ export default function homeScreen({ navigation }) {
         // console.log(data);
         setAllBlogs(data);
       });
+    console.log("fetched data!");
   };
 
   const fetchUserData = () => {
@@ -37,13 +38,17 @@ export default function homeScreen({ navigation }) {
       .then((res) => res.json())
       .then((data) => {
         console.log(data.details);
+        // console.log(data.details);
         setLoginDetails(data.details);
       });
   };
 
   useEffect(() => {
-    console.log("useEffect triggered");
+    // console.log("useEffect triggered");
     fetchData();
+    if (loggedIn) {
+      fetchUserData();
+    }
     // console.log(loggedIn);
     // if (loggedIn) {
     // fetchUserData();
@@ -127,7 +132,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   navContainerView: {
-    backgroundCOlor: "red",
+    // backgroundCOlor: "red",
   },
   // blog: {
   //   backgroundColor: "#152D35",

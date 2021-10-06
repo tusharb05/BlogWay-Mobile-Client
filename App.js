@@ -20,6 +20,7 @@ export default function App() {
   const [allBlogs, setAllBlogs] = useState([]);
   const [likedBlogs, setLikedBlogs] = useState([]);
   const [composedBlogs, setComposedBlogs] = useState([]);
+  const [updated, setUpdated] = useState(false);
   return (
     <NavigationContainer>
       <AuthContext.Provider
@@ -33,6 +34,8 @@ export default function App() {
             setLikedBlogs,
             composedBlogs,
             setComposedBlogs,
+            updated,
+            setUpdated,
           }}
         >
           <Stack.Navigator>

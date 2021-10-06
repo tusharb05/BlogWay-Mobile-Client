@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     width: "100%",
     position: "absolute",
     top: 0,
-    position: "fixed",
+    // position: "fixed",
     backgroundColor: "#112031",
     flexDirection: "row",
     alignItems: "center",

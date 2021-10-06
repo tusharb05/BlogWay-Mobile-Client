@@ -29,7 +29,7 @@ export default function Login({ navigation }) {
         .then((res) => res.json())
         .then((data) => {
           if (data.status === "logged in") {
-            console.log(data);
+            // console.log(data);
             const { username, email, password, _id, likedBlogsID } = data;
             setLoginDetails({ username, email, password, _id, likedBlogsID });
             setLoggedIn(true);
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
   },
   heading: {
     fontSize: 28,
-    fontWeight: "650",
+    fontWeight: "700",
     marginHorizontal: "auto",
   },
   btn: {

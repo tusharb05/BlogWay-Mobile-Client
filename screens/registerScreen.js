@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   },
   heading: {
     fontSize: 28,
-    fontWeight: "650",
+    fontWeight: "700",
     marginHorizontal: "auto",
   },
   btn: {

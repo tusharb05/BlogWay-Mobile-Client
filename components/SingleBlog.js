@@ -14,22 +14,33 @@ export default function SingleBlog(props) {
   const { item, loggedIn, loginDetails, updated, setUpdated, setLoginDetails } =
     props;
   const like = () => {
-    makeLikeRequest(loginDetails?._id, item._id);
-    if (loggedIn) {
-      let arr = loginDetails.likedBlogsID;
-      arr.push(item._id);
-      setLoginDetails({ ...loginDetails, likedBlogsID: arr });
-      setUpdated(!updated);
-    }
+    fetch("http://localhost:5000/api/blog/like", {
+      method: "POST",
+      body: JSON.stringify({ userID: loginDetails._id, blogID: item._id }),
+      headers: { "Content-type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setUpdated(!updated);
+      });
+    // makeLikeRequest(loginDetails?._id, item._id);
+    // if (loggedIn) {
+    //   let arr = loginDetails.likedBlogsID;
+    //   arr.push(item._id);
+    //   setLoginDetails({ ...loginDetails, likedBlogsID: arr });
+    //   setUpdated(!updated);
+    // }
   };
 
   const unlike = () => {
     unlikeRequest(loginDetails?._id, item._id);
     if (loggedIn) {
-      console.log("likedBlogsID: ", loginDetails.likedBlogsID);
-      let arr = loginDetails.likedBlogsID;
-      let temp = arr.splice(arr.indexOf(item._id));
-      setUpdated(!updated);
+      // console.log("likedBlogsID: ", loginDetails.likedBlogsID);
+      // let arr = loginDetails.likedBlogsID;
+      // let temp = arr.splice(arr.indexOf(item._id));
+      // setUpdated(!updated);
+      // setLoginDetails(loginDetails);
     }
   };
 
