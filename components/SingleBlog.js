@@ -29,8 +29,6 @@ export default function SingleBlog(props) {
       console.log("likedBlogsID: ", loginDetails.likedBlogsID);
       let arr = loginDetails.likedBlogsID;
       let temp = arr.splice(arr.indexOf(item._id));
-      // console.log(temp);
-      // setLoginDetails({ ...loginDetails, likedBlogsID: temp });
       setUpdated(!updated);
     }
   };
