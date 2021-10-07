@@ -43,7 +43,7 @@ export default function homeScreen({ navigation }) {
   };
 
   useEffect(() => {
-    console.log("useEffect triggered");
+    // console.log("useEffect triggered");
     // console.log("useEffect from homeScreen");
     fetchData();
     if (loggedIn) {
