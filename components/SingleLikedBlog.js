@@ -1,13 +1,45 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Feather, AntDesign } from "react-native-vector-icons";
 // import unlikeRequest from "../utils/unlikeRequest";
-import { AuthContext } from "../App";
+import { AuthContext, BlogContext } from "../App";
 
 export default function SingleLikedBlog(props) {
-  // const { item, loginDetails, setLoginDetails } = props;
-  const { item } = props;
-  const { loginDetails } = useContext(AuthContext);
+  const { item, likedBlogs, setLikedBlogs } = props;
+  const { loginDetails, setLoginDetails } = useContext(AuthContext);
+  const { updated, setUpdated } = useContext(BlogContext);
+
+  const fetchUserData = () => {
+    fetch("http://localhost:5000/api/user/get/data", {
+      method: "POST",
+      body: JSON.stringify({ userID: loginDetails._id }),
+      headers: { "Content-type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        // console.log(data.details);
+        // console.log(data.details);
+        setLoginDetails(data.details);
+      });
+  };
+
+  const unlike = () => {
+    fetch("http://localhost:5000/api/blog/unlike", {
+      method: "POST",
+      body: JSON.stringify({ userID: loginDetails._id, blogID: item._id }),
+      headers: { "Content-type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        //console.log(data)
+        setLikedBlogs(likedBlogs.filter((x) => x._id !== item._id));
+        setUpdated(!updated);
+        fetchUserData();
+      });
+  };
+
+  useEffect(() => {}, [updated]);
+  // console.log("aasdfasdfasdfasdfaf");
   // const unlike = () => {
   // unlikeRequest(loginDetails?._id, item._id);
   // if (loggedIn) {
@@ -19,7 +51,6 @@ export default function SingleLikedBlog(props) {
   // }
   // setLoginDetails(loginDetails);
   // };
-  const unlike = () => {};
 
   return (
     // <Text>asdf</Text>

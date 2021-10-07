@@ -10,7 +10,9 @@ const Tab = createBottomTabNavigator();
 
 export default function defaultScreen() {
   const { loginDetails, loggedIn } = useContext(AuthContext);
-  useEffect(() => console.log("updated"), [loggedIn]);
+  useEffect(() => {
+    console.log("updated");
+  }, [loggedIn]);
   // console.log(loginDetails);
   return (
     <Tab.Navigator>

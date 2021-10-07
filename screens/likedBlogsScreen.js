@@ -7,37 +7,22 @@ import { AuthContext, BlogContext } from "../App";
 
 export default function likedBlogsScreen({ navigation }) {
   const { loginDetails } = useContext(AuthContext);
-  const { updated, setUpdated } = useContext(BlogContext);
-  const isFocussed = useIsFocused();
+  const { updated, setUpdated, allBlogs } = useContext(BlogContext);
+  const isFocused = useIsFocused();
   const [likedBlogs, setLikedBlogs] = useState([]);
-  useEffect(() => {
-    if (isFocussed == true) {
-      fetch(`http://localhost:5000/api/blog/get/liked/${loginDetails._id}`)
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-          setLikedBlogs(data);
-        });
-    }
-  }, [updated]);
-  // console.log(navigation);
-  // console.log(route);
-  // const { loggedIn, loginDetails, setLoginDetails } = useContext(AuthContext);
-  // const { allBlogs } = useContext(BlogContext);
-  // const [likedBlogs, setLikedBlogs] = useState([]);
-  // const isFocussed = useIsFocused();
 
-  // useEffect(() => {
-  //   // fetch(`http://localhost:5000/api/blog/get/liked/${route.params.user._id}`)
-  //   //   .then((res) => res.json())
-  //   //   .then((data) => setLikedBlogs(data));
-  //   // console.log(likedBlogs);
-  //   const temp = allBlogs.filter((x) =>
-  //     loginDetails.likedBlogsID.includes(x._id)
-  //   );
-  //   // console.log("temp: ", temp);
-  //   setLikedBlogs(temp.reverse());
-  // }, [isFocussed, loginDetails]);
+  useEffect(() => {
+    let temp = [];
+    // console.log(loginDetails.likedBlogsID);
+    // console.log("useFetch triggered from likedBlogScreen");
+    allBlogs.map((blog) => {
+      if (loginDetails.likedBlogsID.includes(blog._id)) {
+        temp.push(blog);
+      }
+    }); //loginDetails is not updated
+    // console.log("temp: ", temp);
+    setLikedBlogs(temp);
+  }, [updated, isFocused, loginDetails]);
 
   return (
     // <Text>likedBlogsScreen</Text>
@@ -47,7 +32,14 @@ export default function likedBlogsScreen({ navigation }) {
       </View>
       <FlatList
         data={likedBlogs}
-        renderItem={({ item }) => <SingleLikedBlog item={item} />}
+        renderItem={({ item }) => (
+          <SingleLikedBlog
+            item={item}
+            likedBlogs={likedBlogs}
+            setLikedBlogs={setLikedBlogs}
+          />
+        )}
+        keyExtractor={(item) => item._id}
       />
     </View>
   );

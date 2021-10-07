@@ -26,7 +26,7 @@ export default function homeScreen({ navigation }) {
         // console.log(data);
         setAllBlogs(data);
       });
-    console.log("fetched data!");
+    // console.log("fetched data!");
   };
 
   const fetchUserData = () => {
@@ -37,14 +37,14 @@ export default function homeScreen({ navigation }) {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.details);
         // console.log(data.details);
         setLoginDetails(data.details);
       });
   };
 
   useEffect(() => {
-    // console.log("useEffect triggered");
+    console.log("useEffect triggered");
+    // console.log("useEffect from homeScreen");
     fetchData();
     if (loggedIn) {
       fetchUserData();
