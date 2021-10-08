@@ -7,7 +7,8 @@ import { AuthContext, BlogContext } from "../App";
 export default function SingleLikedBlog(props) {
   const { item, likedBlogs, setLikedBlogs } = props;
   const { loginDetails, setLoginDetails } = useContext(AuthContext);
-  const { updated, setUpdated } = useContext(BlogContext);
+  const { updated, setUpdated, allBlogs, setAllBlogs } =
+    useContext(BlogContext);
 
   const fetchUserData = () => {
     fetch("http://localhost:5000/api/user/get/data", {
@@ -38,6 +39,22 @@ export default function SingleLikedBlog(props) {
       });
   };
 
+  // const deleteFunction = () => {
+  //   fetch("http://localhost:5000/api/blog/delete", {
+  //     method: "POST",
+  //     body: JSON.stringify({ blogID: item._id }),
+  //     headers: { "Content-type": "application/json" },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       if (data.status === "deleted") {
+  //         setUpdated(!updated);
+  //         // let arr = allBlogs.splice(allBlogs.indexOf(item), 1);
+  //         // setAllBlogs(arr);
+  //       }
+  //     });
+  // };
+
   useEffect(() => {}, [updated]);
   // console.log("aasdfasdfasdfasdfaf");
   // const unlike = () => {
@@ -63,20 +80,12 @@ export default function SingleLikedBlog(props) {
           <Text style={styles.blogTitle}>{item.title}</Text>
         )}
 
-        <View style={styles.btns}>
-          <TouchableOpacity
-            style={{ justifyContent: "center" }}
-            onPress={unlike}
-          >
-            <AntDesign name="like1" size={20} color="#3DB2FF" />
-          </TouchableOpacity>
-
-          {loginDetails._id === item.authorID && (
-            <TouchableOpacity style={{ justifyContent: "center" }}>
-              <Feather name="trash-2" size={20} color="#FF2442" />
-            </TouchableOpacity>
-          )}
-        </View>
+        <TouchableOpacity
+          style={{ justifyContent: "flex-end" }}
+          onPress={unlike}
+        >
+          <AntDesign name="like1" size={20} color="#3DB2FF" />
+        </TouchableOpacity>
       </View>
       {item.body.length > 120 ? (
         <Text style={styles.blogBody}>{item.body.substring(0, 120)}...</Text>
@@ -106,11 +115,11 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingHorizontal: 10,
   },
-  btns: {
-    flexDirection: "row",
-    width: 50,
-    justifyContent: "space-between",
-  },
+  // btns: {
+  //   flexDirection: "row",
+  //   width: 50,
+  //   justifyContent: "space-between",
+  // },
   blogHead: {
     flexDirection: "row",
     justifyContent: "space-between",

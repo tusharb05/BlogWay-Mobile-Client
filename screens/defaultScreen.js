@@ -5,6 +5,7 @@ import { AuthContext } from "../App";
 import homeScreen from "./homeScreen";
 import loginScreen from "./loginScreen";
 import likedBlogsScreen from "./likedBlogsScreen";
+import addBlogScreen from "./addBlogScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -28,7 +29,13 @@ export default function defaultScreen() {
           options={{ header: () => null }}
         />
       )}
-      {/* <Tab.Screen name="Login" component={loginScreen} /> */}
+      {loggedIn && (
+        <Tab.Screen
+          name="Add Blog"
+          component={addBlogScreen}
+          options={{ header: () => null }}
+        />
+      )}
     </Tab.Navigator>
   );
 }

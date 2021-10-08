@@ -39,6 +39,20 @@ export default function SingleBlog(props) {
       });
   };
 
+  const deleteFunction = () => {
+    fetch("http://localhost:5000/api/blog/delete", {
+      method: "POST",
+      body: JSON.stringify({ blogID: item._id }),
+      headers: { "Content-type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status === "deleted") {
+          setUpdated(!updated);
+        }
+      });
+  };
+
   return (
     <View style={styles.blog}>
       <View style={styles.blogHead}>
@@ -68,7 +82,10 @@ export default function SingleBlog(props) {
               </TouchableOpacity>
             ))}
           {loginDetails._id === item.authorID && (
-            <TouchableOpacity style={{ justifyContent: "center" }}>
+            <TouchableOpacity
+              style={{ justifyContent: "center" }}
+              onPress={deleteFunction}
+            >
               <Feather name="trash-2" size={20} color="#FF2442" />
             </TouchableOpacity>
           )}

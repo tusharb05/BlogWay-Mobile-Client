@@ -126,6 +126,8 @@ const styles = StyleSheet.create({
   homeContainer: {
     flex: 1,
     backgroundColor: "#212121",
+    overflow: "scroll",
+    paddingBottom: 10,
   },
   allBlogsContainer: {
     marginTop: 60,
