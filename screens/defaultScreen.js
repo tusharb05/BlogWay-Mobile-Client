@@ -3,7 +3,6 @@ import { StyleSheet, Text, View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { AuthContext } from "../App";
 import homeScreen from "./homeScreen";
-import loginScreen from "./loginScreen";
 import likedBlogsScreen from "./likedBlogsScreen";
 import addBlogScreen from "./addBlogScreen";
 

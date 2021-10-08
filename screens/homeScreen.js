@@ -43,18 +43,10 @@ export default function homeScreen({ navigation }) {
   };
 
   useEffect(() => {
-    // console.log("useEffect triggered");
-    // console.log("useEffect from homeScreen");
     fetchData();
     if (loggedIn) {
       fetchUserData();
     }
-    // console.log(loggedIn);
-    // if (loggedIn) {
-    // fetchUserData();
-    // let temp = loginDetails.likedBlogsID
-    // temp.push()
-    // }
   }, [updated, isFocussed]);
 
   return (
@@ -64,6 +56,7 @@ export default function homeScreen({ navigation }) {
         <FlatList
           data={allBlogs}
           keyExtractor={(item) => item._id}
+          style={{ maxHeight: 515, marginTop: 5 }}
           renderItem={({ item }) => (
             // <View style={styles.blog}>
             <SingleBlog
@@ -73,6 +66,7 @@ export default function homeScreen({ navigation }) {
               updated={updated}
               setUpdated={setUpdated}
               setLoginDetails={setLoginDetails}
+              navigation={navigation}
             />
             //   <View style={styles.blogHead}>
             //     {/* <Text style={styles.blogTitle}>{item.title}</Text> */}

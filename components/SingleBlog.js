@@ -7,12 +7,17 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Feather, AntDesign } from "react-native-vector-icons";
-import makeLikeRequest from "../utils/likeRequest";
-import unlikeRequest from "../utils/unlikeRequest";
 
 export default function SingleBlog(props) {
-  const { item, loggedIn, loginDetails, updated, setUpdated, setLoginDetails } =
-    props;
+  const {
+    item,
+    loggedIn,
+    loginDetails,
+    updated,
+    setUpdated,
+    setLoginDetails,
+    navigation,
+  } = props;
   const like = () => {
     fetch("http://localhost:5000/api/blog/like", {
       method: "POST",
@@ -53,50 +58,60 @@ export default function SingleBlog(props) {
       });
   };
 
-  return (
-    <View style={styles.blog}>
-      <View style={styles.blogHead}>
-        {/* <Text style={styles.blogTitle}>{item.title}</Text> */}
-        {item.title.length > 53 ? (
-          <Text style={styles.blogTitle}>{item.title.substring(0, 53)}...</Text>
-        ) : (
-          <Text style={styles.blogTitle}>{item.title}</Text>
-        )}
+  const navigateToBlogDetails = () => {
+    navigation.navigate("Blog Details", {
+      item: item,
+    });
+  };
 
-        <View style={styles.btns}>
-          {loggedIn &&
-            (!loginDetails.likedBlogsID.includes(item._id) ? (
-              <TouchableOpacity
-                style={{ justifyContent: "center" }}
-                onPress={like}
-              >
-                <AntDesign name="like2" size={20} color="#F8F0DF" />
-                {/* <Text>like</Text> */}
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity
-                style={{ justifyContent: "center" }}
-                onPress={unlike}
-              >
-                <AntDesign name="like1" size={20} color="#3DB2FF" />
-              </TouchableOpacity>
-            ))}
-          {loginDetails._id === item.authorID && (
-            <TouchableOpacity
-              style={{ justifyContent: "center" }}
-              onPress={deleteFunction}
-            >
-              <Feather name="trash-2" size={20} color="#FF2442" />
-            </TouchableOpacity>
+  return (
+    <TouchableOpacity onPress={navigateToBlogDetails}>
+      <View style={styles.blog}>
+        <View style={styles.blogHead}>
+          {/* <Text style={styles.blogTitle}>{item.title}</Text> */}
+          {item.title.length > 53 ? (
+            <Text style={styles.blogTitle}>
+              {item.title.substring(0, 53)}...
+            </Text>
+          ) : (
+            <Text style={styles.blogTitle}>{item.title}</Text>
           )}
+
+          <View style={styles.btns}>
+            {loggedIn &&
+              (!loginDetails.likedBlogsID.includes(item._id) ? (
+                <TouchableOpacity
+                  style={{ justifyContent: "center" }}
+                  onPress={like}
+                >
+                  <AntDesign name="like2" size={20} color="#F8F0DF" />
+                  {/* <Text>like</Text> */}
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  style={{ justifyContent: "center" }}
+                  onPress={unlike}
+                >
+                  <AntDesign name="like1" size={20} color="#3DB2FF" />
+                </TouchableOpacity>
+              ))}
+            {loginDetails._id === item.authorID && (
+              <TouchableOpacity
+                style={{ justifyContent: "center" }}
+                onPress={deleteFunction}
+              >
+                <Feather name="trash-2" size={20} color="#FF2442" />
+              </TouchableOpacity>
+            )}
+          </View>
         </View>
+        {item.body.length > 120 ? (
+          <Text style={styles.blogBody}>{item.body.substring(0, 120)}...</Text>
+        ) : (
+          <Text style={styles.blogBody}>{item.body}</Text>
+        )}
       </View>
-      {item.body.length > 120 ? (
-        <Text style={styles.blogBody}>{item.body.substring(0, 120)}...</Text>
-      ) : (
-        <Text style={styles.blogBody}>{item.body}</Text>
-      )}
-    </View>
+    </TouchableOpacity>
   );
 }
 

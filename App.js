@@ -7,6 +7,7 @@ import homeScreen from "./screens/homeScreen";
 import loginScreen from "./screens/loginScreen";
 import registerScreen from "./screens/registerScreen";
 import defaultScreen from "./screens/defaultScreen";
+import blogDetailsScreen from "./screens/blogDetailsScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -42,10 +43,24 @@ export default function App() {
             <Stack.Screen
               name="DefaultScreen"
               component={defaultScreen}
-              options={{ header: () => null }}
+              options={{ headerShown: false }}
             />
             <Stack.Screen name="Login" component={loginScreen} />
             <Stack.Screen name="Register" component={registerScreen} />
+            <Stack.Screen
+              name="Blog Details"
+              component={blogDetailsScreen}
+              options={{
+                headerShown: true,
+                headerStyle: {
+                  backgroundColor: "#152D35",
+                },
+                headerTintColor: "#eee",
+                headerTitleStyle: {
+                  fontSize: 24,
+                },
+              }}
+            />
           </Stack.Navigator>
         </BlogContext.Provider>
       </AuthContext.Provider>

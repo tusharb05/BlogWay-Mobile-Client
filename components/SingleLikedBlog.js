@@ -71,28 +71,32 @@ export default function SingleLikedBlog(props) {
 
   return (
     // <Text>asdf</Text>
-    <View style={styles.blog}>
-      <View style={styles.blogHead}>
-        {/* <Text style={styles.blogTitle}>{item.title}</Text> */}
-        {item.title.length > 53 ? (
-          <Text style={styles.blogTitle}>{item.title.substring(0, 53)}...</Text>
-        ) : (
-          <Text style={styles.blogTitle}>{item.title}</Text>
-        )}
+    <TouchableOpacity onPress={() => console.log("asdf")}>
+      <View style={styles.blog}>
+        <View style={styles.blogHead}>
+          {/* <Text style={styles.blogTitle}>{item.title}</Text> */}
+          {item.title.length > 53 ? (
+            <Text style={styles.blogTitle}>
+              {item.title.substring(0, 53)}...
+            </Text>
+          ) : (
+            <Text style={styles.blogTitle}>{item.title}</Text>
+          )}
 
-        <TouchableOpacity
-          style={{ justifyContent: "flex-end" }}
-          onPress={unlike}
-        >
-          <AntDesign name="like1" size={20} color="#3DB2FF" />
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={{ justifyContent: "flex-end" }}
+            onPress={unlike}
+          >
+            <AntDesign name="like1" size={20} color="#3DB2FF" />
+          </TouchableOpacity>
+        </View>
+        {item.body.length > 120 ? (
+          <Text style={styles.blogBody}>{item.body.substring(0, 120)}...</Text>
+        ) : (
+          <Text style={styles.blogBody}>{item.body}</Text>
+        )}
       </View>
-      {item.body.length > 120 ? (
-        <Text style={styles.blogBody}>{item.body.substring(0, 120)}...</Text>
-      ) : (
-        <Text style={styles.blogBody}>{item.body}</Text>
-      )}
-    </View>
+    </TouchableOpacity>
   );
 }
 
