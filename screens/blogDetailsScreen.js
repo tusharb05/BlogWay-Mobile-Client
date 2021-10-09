@@ -1,7 +1,14 @@
-import React, { useContext, useState } from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import React, { useContext, useState, useEffect } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  FlatList,
+} from "react-native";
 import { Feather, AntDesign } from "react-native-vector-icons";
 import { AuthContext, BlogContext } from "../App";
+import SingleComment from "../components/SingleComment";
 
 export default function blogDetailsScreen({ route, navigation }) {
   const { title, body, likeCount, commentCount, _id } = route.params.item;
@@ -9,6 +16,16 @@ export default function blogDetailsScreen({ route, navigation }) {
   const { loginDetails, loggedIn } = useContext(AuthContext);
 
   const [likeC, setLikeC] = useState(likeCount);
+  const [comments, setComments] = useState([]);
+
+  useEffect(() => {
+    fetch(`http://localhost:5000/api/blog/comment/get/${_id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setComments(data);
+        console.log(data);
+      });
+  }, [updated, loginDetails]);
 
   const like = () => {
     if (loggedIn) {
@@ -70,7 +87,13 @@ export default function blogDetailsScreen({ route, navigation }) {
       <View style={styles.commentContainer}>
         <Text style={{ color: "white" }}>{commentCount} Comments</Text>
         <View style={styles.comments}>
-          <Text>Comments go here</Text>
+          <FlatList
+            data={comments}
+            keyExtractor={(item) => item._id}
+            renderItem={({ item }) => (
+              <SingleComment commentDetails={item} setComments={setComments} />
+            )}
+          />
         </View>
       </View>
     </View>
