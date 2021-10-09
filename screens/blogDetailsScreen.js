@@ -1,15 +1,46 @@
 import React, { useContext, useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Feather, AntDesign } from "react-native-vector-icons";
-import { AuthContext } from "../App";
+import { AuthContext, BlogContext } from "../App";
 
 export default function blogDetailsScreen({ route, navigation }) {
   const { title, body, likeCount, commentCount, _id } = route.params.item;
-  const { loginDetails } = useContext(AuthContext);
+  const { updated, setUpdated } = useContext(BlogContext);
+  const { loginDetails, loggedIn } = useContext(AuthContext);
 
-  const like = () => {};
+  const [likeC, setLikeC] = useState(likeCount);
 
-  const unlike = () => {};
+  const like = () => {
+    if (loggedIn) {
+      fetch("http://localhost:5000/api/blog/like", {
+        method: "POST",
+        body: JSON.stringify({ userID: loginDetails._id, blogID: _id }),
+        headers: { "Content-type": "application/json" },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          // console.log(data);
+          setUpdated(!updated);
+          setLikeC(likeC + 1);
+        });
+    } else {
+      alert("Login first!");
+    }
+  };
+
+  const unlike = () => {
+    fetch("http://localhost:5000/api/blog/unlike", {
+      method: "POST",
+      body: JSON.stringify({ userID: loginDetails._id, blogID: _id }),
+      headers: { "Content-type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        //console.log(data)
+        setUpdated(!updated);
+        setLikeC(likeC - 1);
+      });
+  };
 
   return (
     <View style={styles.container}>
@@ -33,7 +64,14 @@ export default function blogDetailsScreen({ route, navigation }) {
             <AntDesign name="like1" size={20} color="#3DB2FF" />
           </TouchableOpacity>
         )}
-        <Text style={{ color: "white", fontSize: 17 }}>{likeCount}</Text>
+        <Text style={{ color: "white", fontSize: 17 }}>{likeC}</Text>
+      </View>
+
+      <View style={styles.commentContainer}>
+        <Text style={{ color: "white" }}>{commentCount} Comments</Text>
+        <View style={styles.comments}>
+          <Text>Comments go here</Text>
+        </View>
       </View>
     </View>
   );
@@ -65,5 +103,15 @@ const styles = StyleSheet.create({
   bodyText: {
     fontSize: 20,
     color: "white",
+  },
+  likeContainer: {
+    // backgroundColor: "red",
+    alignItems: "center",
+    marginTop: 10,
+  },
+  commentContainer: {
+    justifyContent: "center",
+    // alignItems: "center",
+    paddingHorizontal: 15,
   },
 });
