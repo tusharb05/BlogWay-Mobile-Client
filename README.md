@@ -1,1 +1,1 @@
-# Mobile client of a social media bloggin app
+# Mobile client of a social media blogging app
