@@ -94,7 +94,7 @@ export default function blogDetailsScreen({ route, navigation }) {
         <Text style={styles.bodyText}>{body}</Text>
       </View>
 
-      <Text style={styles.authorName}>By {author}</Text>
+      <Text style={styles.authorName}>By : {author}</Text>
 
       <View style={styles.likeContainer}>
         {!loginDetails?.likedBlogsID?.includes(_id) ? (
