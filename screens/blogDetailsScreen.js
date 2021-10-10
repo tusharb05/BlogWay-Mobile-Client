@@ -5,8 +5,9 @@ import {
   View,
   TouchableOpacity,
   FlatList,
+  TextInput,
 } from "react-native";
-import { Feather, AntDesign } from "react-native-vector-icons";
+import { Feather, AntDesign, Ionicons } from "react-native-vector-icons";
 import { AuthContext, BlogContext } from "../App";
 import SingleComment from "../components/SingleComment";
 
@@ -22,8 +23,8 @@ export default function blogDetailsScreen({ route, navigation }) {
     fetch(`http://localhost:5000/api/blog/comment/get/${_id}`)
       .then((res) => res.json())
       .then((data) => {
-        setComments(data);
-        console.log(data);
+        setComments(data.comments);
+        // console.log(data);
       });
   }, [updated, loginDetails]);
 
@@ -58,7 +59,7 @@ export default function blogDetailsScreen({ route, navigation }) {
         setLikeC(likeC - 1);
       });
   };
-
+  console.log("comments: ", comments);
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
@@ -86,7 +87,16 @@ export default function blogDetailsScreen({ route, navigation }) {
 
       <View style={styles.commentContainer}>
         <Text style={{ color: "white" }}>{commentCount} Comments</Text>
+
+        <View style={styles.commentForm}>
+          <TextInput />
+          <TouchableOpacity style={styles.floatingButton}>
+            <Ionicons name="add-outline" size={20} color="white" />
+          </TouchableOpacity>
+        </View>
+
         <View style={styles.comments}>
+          {/* // <SingleComment commentDetails={item} setComments={setComments} /> */}
           <FlatList
             data={comments}
             keyExtractor={(item) => item._id}
@@ -94,6 +104,8 @@ export default function blogDetailsScreen({ route, navigation }) {
               <SingleComment commentDetails={item} setComments={setComments} />
             )}
           />
+
+          {/* #DF2E2E */}
         </View>
       </View>
     </View>
