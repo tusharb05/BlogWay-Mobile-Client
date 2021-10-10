@@ -12,7 +12,8 @@ import { AuthContext, BlogContext } from "../App";
 import SingleComment from "../components/SingleComment";
 
 export default function blogDetailsScreen({ route, navigation }) {
-  const { title, body, likeCount, commentCount, _id } = route.params.item;
+  const { title, body, likeCount, commentCount, _id, author } =
+    route.params.item;
   const { updated, setUpdated } = useContext(BlogContext);
   const { loginDetails, loggedIn } = useContext(AuthContext);
 
@@ -92,6 +93,9 @@ export default function blogDetailsScreen({ route, navigation }) {
       <View style={styles.bodyContainer}>
         <Text style={styles.bodyText}>{body}</Text>
       </View>
+
+      <Text style={styles.authorName}>By {author}</Text>
+
       <View style={styles.likeContainer}>
         {!loginDetails?.likedBlogsID?.includes(_id) ? (
           <TouchableOpacity style={{ justifyContent: "center" }} onPress={like}>
@@ -110,7 +114,7 @@ export default function blogDetailsScreen({ route, navigation }) {
       </View>
 
       <View style={styles.commentContainer}>
-        <Text style={{ color: "white" }}>{comCount} Comments</Text>
+        <Text style={styles.commentCountText}>{comCount} Comments</Text>
 
         <View style={styles.commentForm}>
           <TextInput
@@ -215,5 +219,18 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "white",
     marginHorizontal: "auto",
+  },
+  authorName: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "700",
+    marginHorizontal: "auto",
+    marginTop: 13,
+    marginBottom: 16,
+  },
+  commentCountText: {
+    color: "white",
+    fontSize: 18,
+    marginTop: 10,
   },
 });

@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Feather, AntDesign } from "react-native-vector-icons";
-// import unlikeRequest from "../utils/unlikeRequest";
 import { AuthContext, BlogContext } from "../App";
 
 export default function SingleLikedBlog(props) {

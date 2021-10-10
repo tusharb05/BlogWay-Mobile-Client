@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { StyleSheet, Text, View, FlatList } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
-import getLikedBlogs from "../utils/getLikedBlogs";
 import SingleLikedBlog from "../components/SingleLikedBlog";
 import { AuthContext, BlogContext } from "../App";
 
