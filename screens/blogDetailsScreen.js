@@ -18,11 +18,14 @@ export default function blogDetailsScreen({ route, navigation }) {
 
   const [likeC, setLikeC] = useState(likeCount);
   const [comments, setComments] = useState([]);
+  const [commentValue, setCommentValue] = useState("");
+  const [comCount, setComCount] = useState(commentCount);
 
   useEffect(() => {
     fetch(`http://localhost:5000/api/blog/comment/get/${_id}`)
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
         setComments(data.comments);
         // console.log(data);
       });
@@ -59,7 +62,28 @@ export default function blogDetailsScreen({ route, navigation }) {
         setLikeC(likeC - 1);
       });
   };
-  console.log("comments: ", comments);
+
+  const handleSubmit = () => {
+    fetch("http://localhost:5000/api/blog/comment/add", {
+      method: "POST",
+      body: JSON.stringify({
+        authorID: loginDetails._id,
+        blogID: _id,
+        author: loginDetails.username,
+        comment: commentValue,
+      }),
+      headers: { "Content-type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status === "updated") {
+          setComCount(comCount + 1);
+          setComments(data.comments);
+          setCommentValue("");
+        }
+      });
+  };
+  // console.log("comments: ", comments);
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
@@ -86,12 +110,23 @@ export default function blogDetailsScreen({ route, navigation }) {
       </View>
 
       <View style={styles.commentContainer}>
-        <Text style={{ color: "white" }}>{commentCount} Comments</Text>
+        <Text style={{ color: "white" }}>{comCount} Comments</Text>
 
         <View style={styles.commentForm}>
-          <TextInput />
-          <TouchableOpacity style={styles.floatingButton}>
-            <Ionicons name="add-outline" size={20} color="white" />
+          <TextInput
+            value={commentValue}
+            onChangeText={(val) => setCommentValue(val)}
+            style={styles.commentInput}
+            placeholder="Add a public comment..."
+            selectionColor="black"
+          />
+
+          <TouchableOpacity
+            style={styles.submitBtn}
+            onPress={handleSubmit}
+            disabled={loggedIn ? false : true}
+          >
+            <Text style={styles.submitBtnText}>Comment</Text>
           </TouchableOpacity>
         </View>
 
@@ -101,11 +136,15 @@ export default function blogDetailsScreen({ route, navigation }) {
             data={comments}
             keyExtractor={(item) => item._id}
             renderItem={({ item }) => (
-              <SingleComment commentDetails={item} setComments={setComments} />
+              <SingleComment
+                commentDetails={item}
+                setComments={setComments}
+                comments={comments}
+                setComCount={setComCount}
+                comCount={comCount}
+              />
             )}
           />
-
-          {/* #DF2E2E */}
         </View>
       </View>
     </View>
@@ -148,5 +187,33 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     // alignItems: "center",
     paddingHorizontal: 15,
+  },
+  commentInput: {
+    height: 40,
+    // marginVertical: 15,
+    marginTop: 15,
+    marginBottom: 8,
+    borderBottomWidth: 1,
+    borderColor: "#eee",
+    color: "#eee",
+    fontSize: 19,
+  },
+  submitBtn: {
+    // backgroundColor: "#FF2442",
+    borderWidth: 1,
+    borderColor: "#FF2442",
+    width: "100%",
+    paddingVertical: 4,
+    paddingHorizontal: 10,
+    borderRadius: 10,
+    marginHorizontal: "auto",
+    // position: "relative",
+    // left: 220,
+    marginBottom: 20,
+  },
+  submitBtnText: {
+    fontSize: 18,
+    color: "white",
+    marginHorizontal: "auto",
   },
 });
